@@ -1,0 +1,374 @@
+
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AME-PPQ Technology Forecast</title>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" rel="stylesheet"/>
+<link href="https://cdn.datatables.net/buttons/2.4.1/css/buttons.dataTables.min.css" rel="stylesheet"/>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/dataTables.buttons.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.html5.min.js"></script>
+<script src="https://cdn.datatables.net/buttons/2.4.1/js/buttons.print.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+<style>
+body { font-family: "Century Gothic", sans-serif; margin: 0; padding: 2em; background-color: #F4F4F4; font-size: 1em; }
+table { border-collapse: collapse; width: 100%; font-size: 0.9em; }
+th { background-color: #e6f2ff; padding: 0.5em; text-align: center; }
+td { padding: 0.5em; text-align: center; }
+td:contains("Y") {color: green;font-weight: bold;}
+td:contains("N") {color: red;}
+table th, table td {text-align: center;}
+tr:nth-child(odd) td { background-color: #e6f2ff; }
+tr:nth-child(even) td { background-color: #ffffff; }
+.title-row { background-color: #003366; color: white; padding: 1em; display: flex; align-items: center; }
+.title-row img { height: 2.5em; margin-right: 1em; }
+.title-text { font-size: 1.5em; font-weight: bold; }
+.card { background-color: white; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border-radius: 0.5em; margin-bottom: 2em; overflow: hidden;}
+.card-header { background-color: #aeb7c6;  transition: 0.3s; font-weight: bold; padding: 10px; border-radius: 0.5em 0.5em 0 0; cursor: pointer; font-size: 1.2em; color: black;}
+.card-content { padding: 0 1em; max-height: 0; overflow: hidden; transition: max-height 0.5s ease-out, padding 0.3s ease-out; font-size: 0.95em; }
+.card-content.open { padding: 1em; max-height: 2000px; transition: max-height 0.5s ease-in, padding 0.3s ease-in; }
+.footer { background-color: #003366; color: white; text-align: center; padding: 1em; margin-top: 2em; font-size: 0.9em; }
+.footer a { color: #aadfff; text-decoration: underline; }
+.search-bar { margin-bottom: 1em; }
+.search-bar input { width: 100%; padding: 0.5em; font-size: 1em; }
+	
+table.dataTable tbody tr:hover {
+  background-color: #e6f2ff;
+}
+
+/* FORZAR centrado en DataTables */
+table.dataTable thead th {
+  text-align: center !important;
+}
+
+table.dataTable tbody td {
+  text-align: center;
+}
+	
+/* Botones DataTables */
+
+.dt-button {
+  background-color: #f3f3f3 !important;
+  color: #333 !important;
+  border: 1px solid #ccc !important;
+  border-radius: 8px;
+  padding: 6px 14px;
+  transition: 0.3s;
+}
+
+.dt-button:hover {
+  background-color: #0078d4 !important;
+  color: white !important;
+  border-color: #0078d4 !important;
+}
+
+
+
+</style>
+
+	
+	
+<script>
+function toggleCardContent(header) {
+    const content = header.nextElementSibling;
+    content.classList.toggle('open');
+}
+function globalSearch(input) {
+    const filter = input.value.toLowerCase();
+    const cards = document.querySelectorAll('.card');
+    cards.forEach(card => {
+        const text = card.innerText.toLowerCase();
+        card.style.display = text.includes(filter) ? '' : 'none';
+    });
+}
+$(document).ready(function() {
+    $('table.display').each(function() {
+        $(this).DataTable({
+            paging: true,
+			pageLength: 5,
+            searching: true,
+            info: false,
+            dom: 'Bfrtip',
+			ordering: true,
+            buttons: [
+				'copy', 'csv', 'excel', 'pdf', 'print',
+				  {
+					text: 'Clear',
+					action: function (e, dt, node, config) {
+					  dt.search('').draw();
+					}
+				  }
+				]
+        });
+    });
+});
+</script>
+
+
+<head>
+<style>
+  .corner-logo {
+    position: absolute;
+    top: 35px;
+    right: 30px;
+    z-index: 9999;
+  }
+
+  .corner-logo img {
+    width: 120px;
+    height: auto;
+    display: block;
+  }
+</style>
+</head>
+
+
+<body>
+  
+<div class="corner-logo">
+  <img src="flex-logo-blue.png">
+</div>
+	
+	
+<div class="title-row">
+
+
+   <div class="title-text">AME-PPQ Technology Forecast: 2023–2030</div>
+</div>
+
+<style>
+.title-text {
+    text-align: center;  
+    width: 100%;   /* Importante si el contenedor no ocupa todo el ancho */
+    display: block;
+}
+</style>
+
+	
+<style>
+.search-bar {
+     
+}
+
+.search-bar input {
+  width: 98.1%;            /* el input toma todo el contenedor */
+  height: 38px;           /* alto fijo */
+  padding: 0 14px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  transition: 0.3s;
+}
+.search-bar input:focus {
+  outline: none;
+  border-color: #0078d4;
+  box-shadow: 0 0 4px #0078d4;
+}
+</style>
+
+<div class="search-bar">
+<input onkeyup="globalSearch(this)" placeholder="Search categories..." type="text"/>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla Soldering Materials -->
+<div class="card-header" onclick="toggleCardContent(this)">Soldering Materials</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th> 2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>SMT</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td><td>SAC305, LTS, Durafuse, SACQ</td></tr>
+<tr><td>Wave</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td><td>SN100C, SAC305</td></tr>
+<tr><td>Sintering under pressure</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Hybrid sintering</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Pressure-free sintering</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Sintering</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td><td>Nano-Cu, Nano-Ag</td></tr>
+<tr><td>Vacuum Reflow</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>N2 </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Vapor Phase</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+
+<tr><td>Formic Acid (Fluxless)</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Halogen Free Flux (SMT)</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Halogen Free Flux (Wave)</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Solder Spheres Cu core</td><td>N</td><td>N</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>
+
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla Adhesives -->
+<div class="card-header" onclick="toggleCardContent(this)">Adhesives</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display"> <!-- Hold en espera -->
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>UV Cure</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Heat Cure</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>RTV</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+
+<div class="card"> <!-- Tabla Conformal Coatings -->
+<div class="card-header" onclick="toggleCardContent(this)">Conformal Coatings</div> <!-- completed -->
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>Nano-Coating</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Acrylic </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Urethane</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Silicone</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Epoxy</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Parylene </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Hybrids</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla Components -->
+<div class="card-header" onclick="toggleCardContent(this)">Passive Components</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>Smallest Passives</td><td>M0201 (008004)</td><td>M0201 (008004)</td><td>M0201 (008004)</td><td></td><td></td><td></td><td></td><td></td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla Active Components -->
+<div class="card-header" onclick="toggleCardContent(this)">Active Components</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>Finest Pitch.</td><td>0.1</td><td>0.1</td><td>0.1</td><td>0.05mm</td><td>0.05mm</td><td>0.05mm</td><td>0.05mm</td><td>0.05mm</td></tr>
+<tr><td>Largest size</td><td>100x100mm</td><td>100x100mm</td><td>150x150mm</td><td>160x160mm</td><td>180x180mm</td><td>200x200mm</td><td></td><td></td></tr>
+<tr><td>Weight.</td><td>100g</td><td>300g</td><td>500g</td><td>500g</td><td>650g</td><td>1kg</td><td>1.5kg</td><td>2kg</td></tr>
+<tr><td>Component spacing</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td><td>0.75mm</td></tr>
+<tr><td>SMT VPM double side (under  ASIC)</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>CPC (Copper Flyover)</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Advanced substrate technologies </td><td>N</td><td>N</td><td>Glass-Core Substrates</td><td>Glass-Core Substrates</td><td>Glass-Core Substrates</td><td>Glass-Core Substrates</td><td>Glass-Core Substrates</td><td>Glass-Core Substrates</td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla Optic Components -->
+<div class="card-header" onclick="toggleCardContent(this)">Optic Components</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>Fiber Optics</td><td>Circuit Pack Level</td><td>Circuit Pack Level</td><td>Circuit Pack Level</td><td>Co-packaged optics</td><td>Co-packaged optics</td><td>Co-packaged optics</td><td>Co-packaged optics</td><td>Co-packaged optics</td></tr>
+<tr><td>CPO (Copackaged Optics)</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+	
+<div class="card"> <!-- Tabla Connectors completed -->
+<div class="card-header" onclick="toggleCardContent(this)">Connectors</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>OverPass/UltraPass Interconnections  </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>	
+<tr><td>Maximum Z-height </td><td>15mm&nbsp;</td><td>15mm&nbsp;</td><td>20mm&nbsp;</td><td>30mm&nbsp;&nbsp;</td><td>35mm&nbsp;</td><td>35mm&nbsp;</td><td>35mm&nbsp;</td><td>35mm&nbsp;</td></tr>
+<tr><td>Pressfit with Compression Contacts </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Paladin Connector - Press-fit </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Belly to Belly Connector SMT </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Impulse Connector.</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+<div class="card"> <!-- Tabla PCB -->
+<div class="card-header" onclick="toggleCardContent(this)">PCB</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>Hybrid PCB</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Assymetrical Stackup</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Laminate materials (High Speed)</td><td>Megtron 7</td><td>Megtron 8</td><td>Megtron 8</td><td>Megtron 8</td><td>Megtron 8</td><td>Megtron 8</td><td>Megtron 8</td><td>Megtron 8</td></tr>
+<tr><td>Laminate materials (High Speed) (Teflon)</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Laminate materials (High Speed) (Ceramic-Filled)</td><td>N</td><td>N</td><td>N</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Stacked Via</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Through-Hole Vias</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Buried Via</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Blind Via</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>VIPPO </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Micro Via</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Backdrill. </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>surface finish</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td><td>ENIG, ENEPIG, OSP. I-Sn, I-Ag</td></tr>
+<tr><td>PCB Size (mm)</td><td>610x610</td><td>610x610</td><td>610x610</td><td>610x610</td><td>610x610</td><td>610x610</td><td>610x610</td><td>610x610</td></tr>
+<tr><td>Thickness (mm)</td><td>&lt;6.5</td><td>6.5</td><td>6.5</td><td>6.6</td><td>7</td><td>8</td><td>8.5&nbsp;</td><td>9&nbsp;</td></tr>
+<tr><td>PCB Layers. </td><td>20-30</td><td>30-35</td><td>35-40</td><td>40-50</td><td>50-60</td><td>50-60</td><td>70</td><td>70</td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+	
+<div class="card"> <!-- Tabla Other Process -->
+<div class="card-header" onclick="toggleCardContent(this)">Other Process</div>
+<div class="card-content">
+<td>Note: Y = It is used from this year onwards &nbsp;|&nbsp; N = It has not been used</td>
+<table class="display">
+<thead><tr><th></th><th>2023</th><th>2024</th><th>2025</th><th>2026</th><th>2027</th><th>2028</th><th>2029</th><th>2030</th></tr></thead><tbody>
+<tr><td>3-D Assembly</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr><td>Board to Board Stacking</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Package on Package</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Self Correcting Process.</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Use of AI in AOI and Xray.</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>AI usage for defect reviews</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Quantum Computing.</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Liquid cooling. </td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Cryogenic cooling</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Immersion Cooling</td><td>N</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>CPU Heat Disappation (W)</td><td>250</td><td>250</td><td>280</td><td>280</td><td>310</td><td>330</td><td>330</td><td>350</td></tr>
+<tr><td>Soldered Cold Plates</td><td>N</td><td>N</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+<tr><td>Components per hour</td><td>45000</td><td>45000</td><td>48000</td><td>48000</td><td>49000</td><td>49000</td><td>50000</td><td>51200</td></tr>
+<tr><td>Placement accuracy (um)</td><td>50</td><td>50</td><td>46</td><td>46</td><td>42</td><td>42</td><td>38</td><td>36</td></tr>
+<tr><td>Bus bar laser welding.  </td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td><td>Y</td></tr>
+</tbody></table>
+</div>
+</div>
+	
+	
+	
+	
+<div class="footer"> <!-- Creditos -->
+<p>Contact: <a href="mailto:ivan.pelayo@flex.com">ivan.pelayo@flex.com</a></p>
+<p>Contact: <a href="mailto:ivan.pelayo@flex.com">miguel.sierra@flex.com</a></p>
+<p>Last Updated: June 1, 2026</p>
+</div>
+</body>
+</head>
+</html>
